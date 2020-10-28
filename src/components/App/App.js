@@ -9,6 +9,9 @@ import SignIn from '../SignIn/SignIn'
 import SignOut from '../SignOut/SignOut'
 import ChangePassword from '../ChangePassword/ChangePassword'
 
+import Show from '../Show/Show.js'
+import Footer from '../Footer/footer.js'
+
 class App extends Component {
   constructor () {
     super()
@@ -42,6 +45,9 @@ class App extends Component {
           />
         ))}
         <main className="container">
+          <Route exact path='/' render={() => (
+            <Show user={user} />
+          )} />
           <Route path='/sign-up' render={() => (
             <SignUp msgAlert={this.msgAlert} setUser={this.setUser} />
           )} />
@@ -55,6 +61,7 @@ class App extends Component {
             <ChangePassword msgAlert={this.msgAlert} user={user} />
           )} />
         </main>
+        <Footer />
       </Fragment>
     )
   }
