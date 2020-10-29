@@ -10,7 +10,7 @@ import SignOut from '../SignOut/SignOut'
 import ChangePassword from '../ChangePassword/ChangePassword'
 
 import Show from '../Show/Show.js'
-import Footer from '../Footer/footer.js'
+import AddtoCart from '../Cart/AddtoCart.js'
 
 class App extends Component {
   constructor () {
@@ -18,7 +18,9 @@ class App extends Component {
 
     this.state = {
       user: null,
-      msgAlerts: []
+      msgAlerts: [],
+      isCartDone: false,
+      cartItems: []
     }
   }
 
@@ -30,9 +32,15 @@ class App extends Component {
     this.setState({ msgAlerts: [...this.state.msgAlerts, { heading, message, variant }] })
   }
 
-  render () {
-    const { msgAlerts, user } = this.state
+  setDone = user => this.setState({ isDone: true })
 
+  // setCartItems = (arr) => this.setState({ items: [...this.state.cart.items, ...arr] })
+
+  setCartItems = (cartItems) => this.setState({ cartItems })
+
+  render () {
+    const { msgAlerts, user, cartItems } = this.state
+    console.log('app', this.state.cartItems)
     return (
       <Fragment>
         <Header user={user} />
@@ -46,7 +54,7 @@ class App extends Component {
         ))}
         <main className="container">
           <Route exact path='/' render={() => (
-            <Show user={user} />
+            <Show user={user} cartItems={cartItems} setCartItems={this.setCartItems} msgAlert={this.msgAlert} />
           )} />
           <Route path='/sign-up' render={() => (
             <SignUp msgAlert={this.msgAlert} setUser={this.setUser} />
@@ -60,8 +68,10 @@ class App extends Component {
           <AuthenticatedRoute user={user} path='/change-password' render={() => (
             <ChangePassword msgAlert={this.msgAlert} user={user} />
           )} />
+          <Route path='/addToCart/:id' render={() => (
+            <AddtoCart user={user} cartItems={cartItems} setCartItems={this.setCartItems} msgAlert={this.msgAlert}/>
+          )} />
         </main>
-        <Footer />
       </Fragment>
     )
   }

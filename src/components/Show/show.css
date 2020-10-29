@@ -1,0 +1,14 @@
+.deck {
+  margin-bottom: 40px;
+  justify-content: center;
+}
+
+.card {
+  max-width: 400px;
+  min-width: 400px;
+  margin-top: 25px;
+}
+
+Button {
+  align-self: flex-end;
+}
