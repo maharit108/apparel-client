@@ -11,6 +11,7 @@ import ChangePassword from '../ChangePassword/ChangePassword'
 
 import Show from '../Show/Show.js'
 import AddItems from '../OwnerItems/Add.js'
+import EditItems from '../OwnerItems/Edit.js'
 import OwnerView from '../OwnerItems/ownerView.js'
 import OwnerSignIn from '../OwnerItems/OwnerSignIn.js'
 
@@ -78,6 +79,9 @@ class App extends Component {
           )} />
           <AuthenticatedRoute user={user} path='/addItems' render={() => (
             <AddItems msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/editItems/:id' render={({ match }) => (
+            <EditItems msgAlert={this.msgAlert} user={user} match={match}/>
           )} />
         </main>
       </Fragment>

@@ -19,10 +19,8 @@ class OwnerView extends Component {
   }
 
   componentDidMount () {
-    console.log('.............ADMIN............')
     getItems(this.props.user)
       .then(res => {
-        console.log('getdata', res.data.itemsOnSale)
         this.setState((prevState) => {
           return { itemsOnSale: [...prevState.itemsOnSale, ...res.data.itemsOnSale] }
         })
@@ -64,7 +62,7 @@ class OwnerView extends Component {
               </Card.Body>
               <Card.Footer>
                 <Button type='submit' data-key={index} onClick={this.removeItem}>Remove</Button>
-                <Button type='submit' data-key={index} onClick={this.editItem}>Edit Item</Button>
+                <Link to={`/editItems/${item._id}`}> <Button>Edit Item</Button> </Link>
               </Card.Footer>
             </Card>
           )

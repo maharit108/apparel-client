@@ -28,7 +28,7 @@ const ownerOption = (
   </Fragment>
 )
 
-const Header = ({ user }) => (
+const Header = ({ user, cartItems }) => (
   <Navbar bg="primary" variant="dark" expand="md">
     <Navbar.Brand href='#'>
       apparels

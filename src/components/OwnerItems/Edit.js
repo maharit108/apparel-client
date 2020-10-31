@@ -4,9 +4,9 @@ import { withRouter } from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
-import { addItems } from '../../api/allItems.js'
+import { editItems, getOneItem } from '../../api/allItems.js'
 
-class AddItems extends Component {
+class EditItems extends Component {
   constructor () {
     super()
 
@@ -20,12 +20,28 @@ class AddItems extends Component {
     }
   }
 
+  componentDidMount () {
+    const { user, match, msgAlert } = this.props
+    getOneItem(user, match.params.id)
+      .then((res) => {
+        const { name, description, price, stock, itemImg, tags } = res.data.item
+        this.setState({ name: name, description: description, price: price, stock: stock, itemImg: itemImg, tags: tags })
+      })
+      .catch(error => {
+        msgAlert({
+          heading: 'Could not get the Product at this time',
+          message: error.message,
+          variant: 'danger'
+        })
+      })
+  }
+
   handleChange = event => this.setState({
     [event.target.name]: event.target.value
   })
 
-  onAdd = e => {
-    const { user, msgAlert, history } = this.props
+  onEdit = e => {
+    const { user, msgAlert, history, match } = this.props
     const item = {
       name: this.state.name,
       description: this.state.description,
@@ -35,24 +51,16 @@ class AddItems extends Component {
       tags: this.state.tags
     }
     e.preventDefault()
-    addItems(user, item)
+    editItems(user, item, match.params.id)
       .then(() => msgAlert({
-        heading: 'Item Added',
-        message: 'Your Product has successfully been added',
+        heading: 'Changes Made',
+        message: 'Your Product has successfully edited',
         variant: 'success'
       }))
       .then(() => history.push('/admin'))
       .catch(error => {
-        this.setState({
-          name: '',
-          description: '',
-          price: 0,
-          stock: 0,
-          itemImg: '',
-          tags: ''
-        })
         msgAlert({
-          heading: 'Could not add Product at this time',
+          heading: 'Could not make changes to Product at this time',
           message: error.message,
           variant: 'danger'
         })
@@ -65,8 +73,8 @@ class AddItems extends Component {
     return (
       <div className="row">
         <div className="col-sm-10 col-md-8 mx-auto mt-5">
-          <h3>Add Item</h3>
-          <Form onSubmit={this.onAdd}>
+          <h3>Edit Item</h3>
+          <Form onSubmit={this.onEdit}>
             <Form.Group controlId="name">
               <Form.Label>Name Of Product</Form.Label>
               <Form.Control
@@ -133,7 +141,7 @@ class AddItems extends Component {
               </Form.Control>
             </Form.Group>
 
-            <Button variant="primary" type="submit"> Add </Button>
+            <Button variant="primary" type="submit"> Make Changes </Button>
           </Form>
         </div>
       </div>
@@ -141,4 +149,4 @@ class AddItems extends Component {
   }
 }
 
-export default withRouter(AddItems)
+export default withRouter(EditItems)
