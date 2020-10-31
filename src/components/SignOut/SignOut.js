@@ -6,7 +6,7 @@ import messages from '../AutoDismissAlert/messages'
 
 class SignOut extends Component {
   componentDidMount () {
-    const { msgAlert, history, clearUser, user } = this.props
+    const { msgAlert, history, clearUser, user, clearCartId, clearCartItems } = this.props
 
     signOut(user)
       .finally(() => msgAlert({
@@ -14,6 +14,8 @@ class SignOut extends Component {
         messagE: messages.signOutSuccess,
         variant: 'success'
       }))
+      .finally(() => clearCartItems())
+      .finally(() => clearCartId())
       .finally(() => history.push('/'))
       .finally(() => clearUser())
   }

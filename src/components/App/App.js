@@ -10,7 +10,9 @@ import SignOut from '../SignOut/SignOut'
 import ChangePassword from '../ChangePassword/ChangePassword'
 
 import Show from '../Show/Show.js'
-import AddtoCart from '../Cart/AddtoCart.js'
+import AddItems from '../OwnerItems/Add.js'
+import OwnerView from '../OwnerItems/ownerView.js'
+import OwnerSignIn from '../OwnerItems/OwnerSignIn.js'
 
 class App extends Component {
   constructor () {
@@ -19,28 +21,28 @@ class App extends Component {
     this.state = {
       user: null,
       msgAlerts: [],
+
+      cartId: null,
       isCartDone: false,
       cartItems: []
     }
   }
 
   setUser = user => this.setState({ user })
-
   clearUser = () => this.setState({ user: null })
-
   msgAlert = ({ heading, message, variant }) => {
     this.setState({ msgAlerts: [...this.state.msgAlerts, { heading, message, variant }] })
   }
 
   setDone = user => this.setState({ isDone: true })
-
-  // setCartItems = (arr) => this.setState({ items: [...this.state.cart.items, ...arr] })
-
+  setCartId = cartId => this.setState({ cartId })
+  clearCartId = () => this.setState({ cartId: null })
+  clearCartItems = () => this.setState({ cartItems: [] })
   setCartItems = (cartItems) => this.setState({ cartItems })
 
   render () {
-    const { msgAlerts, user, cartItems } = this.state
-    console.log('app', this.state.cartItems)
+    const { msgAlerts, user, cartItems, cartId } = this.state
+    console.log('app', this.state)
     return (
       <Fragment>
         <Header user={user} />
@@ -54,22 +56,28 @@ class App extends Component {
         ))}
         <main className="container">
           <Route exact path='/' render={() => (
-            <Show user={user} cartItems={cartItems} setCartItems={this.setCartItems} msgAlert={this.msgAlert} />
+            <Show user={user} cartItems={cartItems} setCartItems={this.setCartItems} msgAlert={this.msgAlert} cartId={cartId}/>
           )} />
           <Route path='/sign-up' render={() => (
-            <SignUp msgAlert={this.msgAlert} setUser={this.setUser} />
+            <SignUp msgAlert={this.msgAlert} setUser={this.setUser} setCartId={this.setCartId}/>
           )} />
           <Route path='/sign-in' render={() => (
-            <SignIn msgAlert={this.msgAlert} setUser={this.setUser} />
+            <SignIn msgAlert={this.msgAlert} setUser={this.setUser} setCartId={this.setCartId} setCartItems={this.setCartItems} cartItems={cartItems} />
           )} />
           <AuthenticatedRoute user={user} path='/sign-out' render={() => (
-            <SignOut msgAlert={this.msgAlert} clearUser={this.clearUser} user={user} />
+            <SignOut msgAlert={this.msgAlert} clearUser={this.clearUser} user={user} clearCartId={this.clearCartId} clearCartItems={this.clearCartItems} />
           )} />
           <AuthenticatedRoute user={user} path='/change-password' render={() => (
             <ChangePassword msgAlert={this.msgAlert} user={user} />
           )} />
-          <Route path='/addToCart/:id' render={() => (
-            <AddtoCart user={user} cartItems={cartItems} setCartItems={this.setCartItems} msgAlert={this.msgAlert}/>
+          <Route path='/admin-sign-in' render={() => (
+            <OwnerSignIn msgAlert={this.msgAlert} setUser={this.setUser} />
+          )} />
+          <Route exact path='/admin' render={() => (
+            <OwnerView user={user} msgAlert={this.msgAlert} />
+          )} />
+          <AuthenticatedRoute user={user} path='/addItems' render={() => (
+            <AddItems msgAlert={this.msgAlert} user={user} />
           )} />
         </main>
       </Fragment>

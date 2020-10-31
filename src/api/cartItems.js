@@ -11,17 +11,17 @@ export const getAllCarts = (user) => {
   })
 }
 
-export const getRecentCart = (user, id) => {
+export const getRecentCart = (user) => {
   return axios({
     method: 'GET',
     headers: {
       'Authorization': `Token token=${user.token}`
     },
-    url: apiUrl + `/my-cart/${id}`
+    url: apiUrl + '/my-cart'
   })
 }
 
-export const addCart = (user, cart) => {
+export const addCart = (user, items, isDone) => {
   return axios({
     method: 'POST',
     headers: {
@@ -30,8 +30,8 @@ export const addCart = (user, cart) => {
     url: apiUrl + '/my-cart',
     data: {
       bag: {
-        cartItems: cart.items,
-        isCompleted: cart.isDone
+        cartItems: items,
+        isCompleted: isDone
       }
     }
   })
