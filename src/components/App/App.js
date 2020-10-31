@@ -10,6 +10,7 @@ import SignOut from '../SignOut/SignOut'
 import ChangePassword from '../ChangePassword/ChangePassword'
 
 import Show from '../Show/Show.js'
+import Cart from '../Cart/Cart.js'
 import AddItems from '../OwnerItems/Add.js'
 import EditItems from '../OwnerItems/Edit.js'
 import OwnerView from '../OwnerItems/ownerView.js'
@@ -24,7 +25,6 @@ class App extends Component {
       msgAlerts: [],
 
       cartId: null,
-      isCartDone: false,
       cartItems: []
     }
   }
@@ -35,7 +35,6 @@ class App extends Component {
     this.setState({ msgAlerts: [...this.state.msgAlerts, { heading, message, variant }] })
   }
 
-  setDone = user => this.setState({ isDone: true })
   setCartId = cartId => this.setState({ cartId })
   clearCartId = () => this.setState({ cartId: null })
   clearCartItems = () => this.setState({ cartItems: [] })
@@ -58,6 +57,9 @@ class App extends Component {
         <main className="container">
           <Route exact path='/' render={() => (
             <Show user={user} cartItems={cartItems} setCartItems={this.setCartItems} msgAlert={this.msgAlert} cartId={cartId}/>
+          )} />
+          <Route exact path='/my-cart' render={() => (
+            <Cart user={user} cartItems={cartItems} setCartItems={this.setCartItems} clearCartItems={this.clearCartItems} msgAlert={this.msgAlert} cartId={cartId} setCartId={this.setCartId} clearCartId={this.clearCartId} />
           )} />
           <Route path='/sign-up' render={() => (
             <SignUp msgAlert={this.msgAlert} setUser={this.setUser} setCartId={this.setCartId}/>

@@ -37,12 +37,18 @@ class Show extends Component {
       cartCopy.push({
         itemId: this.state.itemsOnSale[idx]._id,
         itemName: this.state.itemsOnSale[idx].name,
+        price: this.state.itemsOnSale[idx].price,
         qty: 1
       })
     } else {
       cartCopy.filter(item => item.itemId === this.state.itemsOnSale[idx]._id)[0].qty += 1
     }
     this.props.setCartItems(cartCopy)
+    this.props.msgAlert({
+      heading: 'Added to Cart',
+      message: '',
+      variant: 'success'
+    })
     // if (!this.props.user) {
     //   editCart(this.props.user, this.state.itemsOnSale[idx]._id, cartCopy, false)
     //     .then()

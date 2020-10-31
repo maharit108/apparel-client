@@ -1,0 +1,28 @@
+.cart {
+  color: black;
+  font-weight: 300;
+}
+
+.total {
+  text-align: right;
+}
+
+.empty {
+  color: black;
+}
+
+.order {
+  text-align: left;
+  color: black;
+}
+
+.cartShow {
+  margin: 15px;
+  text-align: center;
+  justify-content: center;
+  border-bottom: 2px solid gray;
+}
+
+.pay {
+  margin: 20px;
+}
