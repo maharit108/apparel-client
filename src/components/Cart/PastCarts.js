@@ -4,7 +4,8 @@ import { withRouter } from 'react-router-dom'
 // import { getItems } from '../../api/allItems.js'
 import { getAllCarts, delThisCart } from '../../api/cartItems.js'
 import Table from 'react-bootstrap/Table'
-import Button from 'react-bootstrap/Button'
+
+import remove from './../../icons/remove.svg'
 
 import './pastcarts.css'
 
@@ -88,7 +89,7 @@ render () {
                       })}</th>
                       <th className='cart'>${(Math.round(total * 100) / 100).toFixed(2)}</th>
                       <th className='cart'>
-                        <Button data-key={index} onClick={this.delCart}>X</Button>
+                        <span><img data-key={index} onClick={this.delCart} className='icons delCart' src={remove} alt='Delete Cart' /></span>
                       </th>
                     </tr>
                   )

@@ -4,7 +4,10 @@ import { getItems, delItems } from '../../api/allItems.js'
 
 import Card from 'react-bootstrap/Card'
 import CardDeck from 'react-bootstrap/CardDeck'
-import Button from 'react-bootstrap/Button'
+
+import remove from './../../icons/remove.svg'
+import edit from './../../icons/edit.svg'
+import plus from './../../icons/plus.svg'
 
 import '../Show/show.css'
 
@@ -60,8 +63,8 @@ class OwnerView extends Component {
                 </Card.Text>
               </Card.Body>
               <Card.Footer>
-                <Button type='submit' data-key={index} onClick={this.removeItem}>Remove</Button>
-                <Link to={`/editItems/${item._id}`}> <Button>Edit Item</Button> </Link>
+                <span><img data-key={index} onClick={this.removeItem} className='icons del' src={remove} alt='Delete Item' /></span>
+                <Link to={`/editItems/${item._id}`}><img className='icons edit' src={edit} alt='Edit Item' /></Link>
               </Card.Footer>
             </Card>
           )
@@ -70,7 +73,9 @@ class OwnerView extends Component {
     }
     return (
       <Fragment>
-        <Link to={'/addItems'}> <Button>Add</Button> </Link>
+        <div className='storeAdd'>
+          <span>ADD ITEMS</span><Link to={'/addItems'}><img className='icons plus' src={plus} alt='Add Item' /></Link>
+        </div>
         <CardDeck className='deck'>
           {jsx}
         </CardDeck>

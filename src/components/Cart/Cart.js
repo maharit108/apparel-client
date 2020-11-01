@@ -6,6 +6,9 @@ import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
 import Form, { Col } from 'react-bootstrap/Form'
 
+import plus from './../../icons/plus.svg'
+import remove from './../../icons/remove.svg'
+
 import './cart.css'
 
 class Cart extends Component {
@@ -155,10 +158,10 @@ class Cart extends Component {
                         <th className='cart'>${item.price}</th>
                         <th className='cart'>${(Math.round(item.price * item.qty * 100) / 100).toFixed(2)}</th>
                         <th className='cart'>
-                          <Button data-key={index} onClick={this.addOneCart}>+</Button>
+                          <span><img data-key={index} onClick={this.addOneCart} className='icons plus' src={plus} alt='Increase item by 1' /></span>
                         </th>
                         <th className='cart'>
-                          <Button data-key={index} onClick={this.delFromCart}>X</Button>
+                          <span><img data-key={index} onClick={this.delFromCart} className='icons del' src={remove} alt='Decrease item by 1' /></span>
                         </th>
                       </tr>
                     )

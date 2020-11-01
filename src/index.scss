@@ -2,4 +2,20 @@
 
 Form {
   min-height: 80vh;
+  margin-bottom: 10px;
+}
+
+.icons {
+  margin: 5px;
+  height: 40px;
+  width: 40px;
+  // border: 1px solid pink;
+  padding: 5px;
+  // background-color: pink;
+  border-radius: 10px;
+}
+
+.icons:hover {
+  transform: scale(1.25);
+  cursor: pointer;
 }

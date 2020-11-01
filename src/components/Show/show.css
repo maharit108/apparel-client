@@ -27,3 +27,16 @@ Button {
   max-width: 100%;
   text-align: left;
 }
+
+.card-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.storeAdd {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}

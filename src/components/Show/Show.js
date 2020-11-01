@@ -5,7 +5,8 @@ import { editCart } from '../../api/cartItems.js'
 
 import Card from 'react-bootstrap/Card'
 import CardDeck from 'react-bootstrap/CardDeck'
-import Button from 'react-bootstrap/Button'
+// import Button from 'react-bootstrap/Button'
+import add from './../../icons/addCart.svg'
 
 import './show.css'
 
@@ -75,7 +76,7 @@ class Show extends Component {
                 </Card.Text>
               </Card.Body>
               <Card.Footer>
-                <Button type='submit' data-key={index} onClick={this.addCart}>Add to Cart</Button>
+                <span><img data-key={index} onClick={this.addCart} className='icons add' src={add} alt='Add items to Cart' /></span>
               </Card.Footer>
             </Card>
           )
