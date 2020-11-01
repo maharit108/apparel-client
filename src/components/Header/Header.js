@@ -2,6 +2,8 @@ import React, { Fragment } from 'react'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 
+import favicon from './../../icons/favicon.png'
+
 const authenticatedOptions = (
   <Fragment>
     <Nav.Link href="#history">Past Transactions</Nav.Link>
@@ -32,7 +34,7 @@ const ownerOption = (
 const Header = ({ user, cartItems }) => (
   <Navbar bg="primary" variant="dark" expand="md">
     <Navbar.Brand href='#'>
-      apparels
+      <img className='icons' src={favicon} alt='Favicon' />  Apparels
     </Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
