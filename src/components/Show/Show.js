@@ -67,7 +67,7 @@ class Show extends Component {
       jsx = (
         this.state.itemsOnSale.map((item, index) => {
           return (
-            <Card key={index} className='card'>
+            <Card key={index} >
               <Card.Img variant="top" src={item.itemImg} />
               <Card.Body>
                 <Card.Title><div className='cardHead'><span>{item.name}</span><span>${item.price}</span></div></Card.Title>
