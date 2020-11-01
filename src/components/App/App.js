@@ -59,7 +59,7 @@ class App extends Component {
             <Show user={user} cartItems={cartItems} setCartItems={this.setCartItems} msgAlert={this.msgAlert} cartId={cartId}/>
           )} />
           <Route exact path='/my-cart' render={() => (
-            <Cart user={user} cartItems={cartItems} setCartItems={this.setCartItems} clearCartItems={this.clearCartItems} msgAlert={this.msgAlert} cartId={cartId} setCartId={this.setCartId} clearCartId={this.clearCartId} />
+            <Cart user={user} cartItems={cartItems} setCartItems={this.setCartItems} clearCartItems={this.clearCartItems} msgAlert={this.msgAlert} cartId={cartId} setCartId={this.setCartId} />
           )} />
           <Route path='/sign-up' render={() => (
             <SignUp msgAlert={this.msgAlert} setUser={this.setUser} setCartId={this.setCartId}/>

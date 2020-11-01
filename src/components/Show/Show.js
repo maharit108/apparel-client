@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
-// import { Link } from 'react-router-dom'
+
 import { getItems } from '../../api/allItems.js'
-// import { editCart } from '../../api/cartItems.js'
 
 import Card from 'react-bootstrap/Card'
 import CardDeck from 'react-bootstrap/CardDeck'
@@ -49,10 +48,6 @@ class Show extends Component {
       message: '',
       variant: 'success'
     })
-    // if (!this.props.user) {
-    //   editCart(this.props.user, this.state.itemsOnSale[idx]._id, cartCopy, false)
-    //     .then()
-    // }
   }
 
   render () {
@@ -89,7 +84,3 @@ class Show extends Component {
 }
 
 export default Show
-
-// <Link to={`/addToCart/${item._id}`}>
-//   <Button>Add to Cart</Button>
-// </Link>

@@ -37,13 +37,14 @@ export const addCart = (user, items, isDone) => {
   })
 }
 
-export const editCart = (user, id, cart) => {
+export const editCart = (user, cartId, cart) => {
+  console.log('api', user.token, cartId, cart)
   return axios({
     method: 'PATCH',
     headers: {
       'Authorization': `Token token=${user.token}`
     },
-    url: apiUrl + `/my-cart/${id}`,
+    url: apiUrl + `/my-cart/${cartId}`,
     data: {
       bag: {
         cartItems: cart.items,

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
-// import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 // import { getItems } from '../../api/allItems.js'
-// import { editCart } from '../../api/cartItems.js'
+import { editCart, addCart } from '../../api/cartItems.js'
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
 import Form, { Col } from 'react-bootstrap/Form'
@@ -37,24 +37,68 @@ class Cart extends Component {
 
   onPay = e => {
     e.preventDefault()
-    this.props.msgAlert({
-      heading: 'Your Order has been placed ',
-      message: '',
-      variant: 'success'
-    })
-    this.setState({
-      itemsInCart: [],
-      cardNo: '',
-      firstName: '',
-      lastName: '',
-      date: '',
-      cvv: '',
-      address: '',
-      contactInfo: ''
-    })
+    const cart = {
+      items: this.state.itemsInCart,
+      isDone: true
+    }
+    const { user, cartId, msgAlert, history } = this.props
+    console.log('editcart', user, cartId, cart)
+
+    editCart(user, cartId, cart)
+      .then((res) => {
+        msgAlert({
+          heading: 'Your Order has been placed ',
+          message: '',
+          variant: 'success'
+        })
+      })
+      .then(() => {
+        this.setState({
+          itemsInCart: [],
+          cardNo: '',
+          firstName: '',
+          lastName: '',
+          date: '',
+          cvv: '',
+          address: '',
+          contactInfo: ''
+        })
+      })
+      .then(() => {
+        addCart(this.props.user, [], false)
+          .then((res) => {
+            this.props.setCartId(res.data.bag._id)
+            this.props.clearCartItems()
+          })
+          .catch((error) => console.log('create', error.message))
+      })
+      .catch((error) => {
+        msgAlert({
+          heading: 'Could not place order at this time ',
+          message: error.message,
+          variant: 'danger'
+        })
+      })
+      .finally(() => history.push('/'))
+  }
+
+  delFromCart = e => {
+    e.preventDefault()
+    const idx = parseInt(e.target.getAttribute('data-key'))
+    const cartCopy = [...this.state.itemsInCart]
+    if (cartCopy[idx].qty <= 1) {
+      cartCopy.splice(idx, 1)
+      this.props.setCartItems(cartCopy)
+      this.setState({ itemsInCart: cartCopy })
+    } else {
+      cartCopy[idx].qty -= 1
+      this.props.setCartItems(cartCopy)
+      this.setState({ itemsInCart: cartCopy })
+    }
   }
 
   render () {
+    const { cardNo, firstName, lastName, date, cvv, address, contactInfo } = this.state
     let jsx = (<h3 className='empty'>Cart is Empty</h3>)
     let total = 0
     if (this.state.itemsInCart.length !== 0) {
@@ -80,6 +124,9 @@ class Cart extends Component {
                       <th className='cart'>{item.itemName}</th>
                       <th className='cart'>{item.qty}</th>
                       <th className='cart'>{item.price}</th>
+                      <th className='cart'>
+                        <Button data-key={index} onClick={this.delFromCart}>X</Button>
+                      </th>
                     </tr>
                   )
                 })
@@ -93,8 +140,62 @@ class Cart extends Component {
         </Fragment>
       )
     }
-    console.log('cart', this.state.itemsInCart)
-    const { cardNo, firstName, lastName, date, cvv, address, contactInfo } = this.state
+
+    let form = (
+      <div className="row pay">
+        <div className="col-sm-10 col-md-8 mx-auto mt-5">
+          <Form onSubmit={this.onPay}>
+            <Form.Row>
+              <Form.Group as={Col} controlId="firstName">
+                <Form.Label>First Name</Form.Label>
+                <Form.Control name='firstName' value={firstName} onChange={this.handleChange} />
+              </Form.Group>
+
+              <Form.Group as={Col} controlId="lastName">
+                <Form.Label>Last Name</Form.Label>
+                <Form.Control name='lastName' value={lastName} onChange={this.handleChange} />
+              </Form.Group>
+            </Form.Row>
+
+            <Form.Group controlId="cardNo">
+              <Form.Label>Card Number</Form.Label>
+              <Form.Control placeholder="1111 2222 3333 4444" name='cardNo' value={cardNo} onChange={this.handleChange} />
+            </Form.Group>
+
+            <Form.Row>
+              <Form.Group as={Col} controlId="date">
+                <Form.Label>Expiry Date</Form.Label>
+                <Form.Control name='date' value={date} onChange={this.handleChange} placeholder="02/22" />
+              </Form.Group>
+
+              <Form.Group as={Col} controlId="cvv">
+                <Form.Label>CVV</Form.Label>
+                <Form.Control name='cvv' value={cvv} onChange={this.handleChange} placeholder="123" />
+              </Form.Group>
+            </Form.Row>
+
+            <Form.Group controlId="address">
+              <Form.Label>Address</Form.Label>
+              <Form.Control placeholder="1234 Main St, Chicago, IL-60626" name='address' value={address} onChange={this.handleChange} />
+            </Form.Group>
+
+            <Form.Group controlId="contactInfo">
+              <Form.Label>Contact Info</Form.Label>
+              <Form.Control placeholder="111-2223456" name='contactInfo' value={contactInfo} onChange={this.handleChange} />
+            </Form.Group>
+
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+          </Form>
+        </div>
+      </div>
+    )
+    if (!this.props.user) {
+      form = (
+        <h3 className='formtxt'>Please Sign In to Complete order</h3>
+      )
+    }
     return (
       <Fragment>
         <div className="cartBox">
@@ -103,54 +204,7 @@ class Cart extends Component {
               {jsx}
             </div>
           </div>
-          <div className="row pay">
-            <div className="col-sm-10 col-md-8 mx-auto mt-5">
-              <Form onSubmit={this.onPay}>
-                <Form.Row>
-                  <Form.Group as={Col} controlId="firstName">
-                    <Form.Label>First Name</Form.Label>
-                    <Form.Control name='firstName' value={firstName} onChange={this.handleChange} />
-                  </Form.Group>
-
-                  <Form.Group as={Col} controlId="lastName">
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control name='lastName' value={lastName} onChange={this.handleChange} />
-                  </Form.Group>
-                </Form.Row>
-
-                <Form.Group controlId="cardNo">
-                  <Form.Label>Card Number</Form.Label>
-                  <Form.Control placeholder="1111 2222 3333 4444" name='cardNo' value={cardNo} onChange={this.handleChange} />
-                </Form.Group>
-
-                <Form.Row>
-                  <Form.Group as={Col} controlId="date">
-                    <Form.Label>Expiry Date</Form.Label>
-                    <Form.Control name='date' value={date} onChange={this.handleChange} placeholder="02/22" />
-                  </Form.Group>
-
-                  <Form.Group as={Col} controlId="cvv">
-                    <Form.Label>CVV</Form.Label>
-                    <Form.Control name='cvv' value={cvv} onChange={this.handleChange} placeholder="123" />
-                  </Form.Group>
-                </Form.Row>
-
-                <Form.Group controlId="address">
-                  <Form.Label>Address</Form.Label>
-                  <Form.Control placeholder="1234 Main St, Chicago, IL-60626" name='address' value={address} onChange={this.handleChange} />
-                </Form.Group>
-
-                <Form.Group controlId="contactInfo">
-                  <Form.Label>Contact Info</Form.Label>
-                  <Form.Control placeholder="111-2223456" name='contactInfo' value={contactInfo} onChange={this.handleChange} />
-                </Form.Group>
-
-                <Button variant="primary" type="submit">
-                  Submit
-                </Button>
-              </Form>
-            </div>
-          </div>
+          {form}
         </div>
         <Footer user={this.props.user}/>
       </Fragment>
@@ -158,4 +212,4 @@ class Cart extends Component {
   }
 }
 
-export default Cart
+export default withRouter(Cart)

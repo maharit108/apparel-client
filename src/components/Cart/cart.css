@@ -7,8 +7,15 @@
   text-align: right;
 }
 
+.formtxt {
+  text-align: center;
+  color: black;
+  padding: 15vh;
+}
+
 .empty {
   color: black;
+  padding: 15vh;
 }
 
 .order {
