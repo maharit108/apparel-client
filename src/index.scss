@@ -19,3 +19,25 @@ Form {
   transform: scale(1.25);
   cursor: pointer;
 }
+
+.favicon {
+  height: 25px;
+  width: 25px;
+  margin: 0 5px 0 25px;
+}
+
+.favicon:hover {
+  transform: scale(1.25);
+  cursor: pointer;
+}
+
+.headicon{
+  height: 25px;
+  width: 25px;
+  margin: 0 5px 0 0px;
+}
+
+.headicon:hover {
+  transform: scale(1.25);
+  cursor: pointer;
+}

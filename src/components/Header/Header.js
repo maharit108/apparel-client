@@ -3,6 +3,7 @@ import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 
 import favicon from './../../icons/favicon.png'
+import cart from './../../icons/cart.svg'
 
 const authenticatedOptions = (
   <Fragment>
@@ -21,7 +22,7 @@ const unauthenticatedOptions = (
 
 const alwaysOptions = (
   <Fragment>
-    <Nav.Link href="#my-cart">Cart</Nav.Link>
+    <Nav.Link href="#my-cart"><img className='headicon' src={cart} alt='Cart' /></Nav.Link>
   </Fragment>
 )
 
@@ -34,7 +35,7 @@ const ownerOption = (
 const Header = ({ user, cartItems }) => (
   <Navbar bg="primary" variant="dark" expand="md">
     <Navbar.Brand href='#'>
-      <img className='icons' src={favicon} alt='Favicon' />  Apparels
+      <img className='favicon' src={favicon} alt='Favicon' />  Apparels
     </Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
