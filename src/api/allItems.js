@@ -49,7 +49,6 @@ export const addItems = (user, item) => {
 }
 
 export const editItems = (user, item, id) => {
-  console.log('editItem', item, user.token, id)
   return axios({
     url: apiUrl + `/items/${id}`,
     method: 'PATCH',

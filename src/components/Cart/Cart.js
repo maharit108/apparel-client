@@ -44,7 +44,6 @@ class Cart extends Component {
       isDone: true
     }
     const { user, cartId, msgAlert, history } = this.props
-    console.log('editcart', user, cartId, cart)
 
     editCart(user, cartId, cart)
       .then((res) => {
@@ -72,7 +71,13 @@ class Cart extends Component {
             this.props.setCartId(res.data.bag._id)
             this.props.clearCartItems()
           })
-          .catch((error) => console.log('create', error.message))
+          .catch((error) => {
+            msgAlert({
+              heading: 'Could not place order at this time ',
+              message: error.message,
+              variant: 'danger'
+            })
+          })
       })
       .catch((error) => {
         msgAlert({
@@ -94,7 +99,6 @@ class Cart extends Component {
       cartCopy[idx].qty -= 1
     }
     if (this.props.user) {
-      console.log('user', this.props.user, cartCopy)
       const cart = {
         items: cartCopy,
         isDone: false
@@ -113,7 +117,6 @@ class Cart extends Component {
     const cartCopy = [...this.state.itemsInCart]
     cartCopy[idx].qty += 1
     if (this.props.user) {
-      console.log('user', this.props.user, cartCopy)
       const cart = {
         items: cartCopy,
         isDone: false
@@ -124,7 +127,6 @@ class Cart extends Component {
     }
     this.props.setCartItems(cartCopy)
     this.setState({ itemsInCart: cartCopy })
-    console.log('now', this.state.itemsInCart)
   }
 
   render () {

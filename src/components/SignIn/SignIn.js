@@ -65,7 +65,6 @@ class SignIn extends Component {
             } else {
               addCart(this.state.user, [], false)
                 .then((res) => {
-                  console.log(res, 'post coz no cart')
                   this.props.setCartId(res.data.bag._id)
                   this.props.setCartItems([...this.props.cartItems])
                 })

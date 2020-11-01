@@ -24,7 +24,6 @@ class PastCarts extends Component {
         const oldCarts = []
         oldCarts.push(res.data.carts.filter(cart => cart.isCompleted === true))
         this.setState({ pastCarts: oldCarts[0] })
-        console.log('old', this.state.pastCarts, oldCarts)
       })
       .catch((error) => {
         this.props.msgAlert({

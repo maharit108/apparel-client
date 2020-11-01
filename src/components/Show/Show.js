@@ -44,7 +44,6 @@ class Show extends Component {
       cartCopy.filter(item => item.itemId === this.state.itemsOnSale[idx]._id)[0].qty += 1
     }
     if (this.props.user) {
-      console.log('user', this.props.user, cartCopy)
       const cart = {
         items: cartCopy,
         isDone: false
@@ -67,7 +66,7 @@ class Show extends Component {
       jsx = (
         this.state.itemsOnSale.map((item, index) => {
           return (
-            <Card key={index} >
+            <Card key={index} id='card' >
               <Card.Img variant="top" src={item.itemImg} />
               <Card.Body>
                 <Card.Title><div className='cardHead'><span>{item.name}</span><span>${item.price}</span></div></Card.Title>

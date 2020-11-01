@@ -44,7 +44,6 @@ class App extends Component {
 
   render () {
     const { msgAlerts, user, cartItems, cartId } = this.state
-    console.log('app', this.state)
     return (
       <Fragment>
         <Header user={user} />
