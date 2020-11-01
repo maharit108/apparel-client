@@ -5,7 +5,6 @@ import { editCart, addCart } from '../../api/cartItems.js'
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
 import Form, { Col } from 'react-bootstrap/Form'
-import Footer from '../Footer/footer.js'
 
 import './cart.css'
 
@@ -127,49 +126,51 @@ class Cart extends Component {
 
   render () {
     const { cartNo, firstName, lastName, date, cvv, address, contactInfo } = this.state
-    let jsx = (<h3 className='empty'>Cart is Empty</h3>)
+    let jsx = (<h3 className='emptyCart'>Cart is Empty</h3>)
     let total = 0
     if (this.state.itemsInCart.length !== 0) {
       jsx = (
         <Fragment>
-          <h3 className='order'>Order:</h3>
-          <Table>
-            <thead>
-              <tr key='head'>
-                <th>#</th>
-                <th>{'Product'}</th>
-                <th>{'Quantity'}</th>
-                <th>{'Unit'}</th>
-                <th>{'Price'}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                this.state.itemsInCart.map((item, index) => {
-                  total += (item.price * item.qty)
-                  return (
-                    <tr key={index}>
-                      <th className='cart'>{index + 1}</th>
-                      <th className='cart'>{item.itemName}</th>
-                      <th className='cart'>{item.qty}</th>
-                      <th className='cart'>{item.price}</th>
-                      <th className='cart'>{(Math.round(item.price * item.qty * 100) / 100).toFixed(2)}</th>
-                      <th className='cart'>
-                        <Button data-key={index} onClick={this.addOneCart}>+</Button>
-                      </th>
-                      <th className='cart'>
-                        <Button data-key={index} onClick={this.delFromCart}>X</Button>
-                      </th>
-                    </tr>
-                  )
-                })
-              }
-              <tr>
-                <th colSpan="4" className='total'>{'Total'}</th>
-                <th >{(Math.round(total * 100) / 100).toFixed(2)}</th>
-              </tr>
-            </tbody>
-          </Table>
+          <div className='orderCart'>
+            <h3 className='order'>Order:</h3>
+            <Table>
+              <thead>
+                <tr key='head'>
+                  <th>#</th>
+                  <th>{'Product'}</th>
+                  <th>{'Quantity'}</th>
+                  <th>{'Unit'}</th>
+                  <th>{'Price'}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  this.state.itemsInCart.map((item, index) => {
+                    total += (item.price * item.qty)
+                    return (
+                      <tr key={index}>
+                        <th className='cart'>{index + 1}</th>
+                        <th className='cart'>{item.itemName}</th>
+                        <th className='cart'>{item.qty}</th>
+                        <th className='cart'>${item.price}</th>
+                        <th className='cart'>${(Math.round(item.price * item.qty * 100) / 100).toFixed(2)}</th>
+                        <th className='cart'>
+                          <Button data-key={index} onClick={this.addOneCart}>+</Button>
+                        </th>
+                        <th className='cart'>
+                          <Button data-key={index} onClick={this.delFromCart}>X</Button>
+                        </th>
+                      </tr>
+                    )
+                  })
+                }
+                <tr>
+                  <th colSpan="4" className='total'>{'Total'}</th>
+                  <th >${(Math.round(total * 100) / 100).toFixed(2)}</th>
+                </tr>
+              </tbody>
+            </Table>
+          </div>
         </Fragment>
       )
     }
@@ -239,7 +240,6 @@ class Cart extends Component {
           </div>
           {form}
         </div>
-        <Footer user={this.props.user}/>
       </Fragment>
     )
   }

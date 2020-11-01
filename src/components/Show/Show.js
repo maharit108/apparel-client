@@ -6,7 +6,6 @@ import { editCart } from '../../api/cartItems.js'
 import Card from 'react-bootstrap/Card'
 import CardDeck from 'react-bootstrap/CardDeck'
 import Button from 'react-bootstrap/Button'
-import Footer from '../Footer/footer.js'
 
 import './show.css'
 
@@ -70,7 +69,7 @@ class Show extends Component {
             <Card key={index} className='card'>
               <Card.Img variant="top" src={item.itemImg} />
               <Card.Body>
-                <Card.Title>{item.name}</Card.Title>
+                <Card.Title><div className='cardHead'><span>{item.name}</span><span>${item.price}</span></div></Card.Title>
                 <Card.Text>
                   {item.description}
                 </Card.Text>
@@ -88,7 +87,6 @@ class Show extends Component {
         <CardDeck className='deck'>
           {jsx}
         </CardDeck>
-        <Footer user={this.props.user}/>
       </Fragment>
     )
   }

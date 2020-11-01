@@ -16,6 +16,8 @@ import AddItems from '../OwnerItems/Add.js'
 import EditItems from '../OwnerItems/Edit.js'
 import OwnerView from '../OwnerItems/ownerView.js'
 
+import Footer from '../Footer/footer.js'
+
 class App extends Component {
   constructor () {
     super()
@@ -62,7 +64,7 @@ class App extends Component {
             <Cart user={user} cartItems={cartItems} setCartItems={this.setCartItems} clearCartItems={this.clearCartItems} msgAlert={this.msgAlert} cartId={cartId} setCartId={this.setCartId} />
           )} />
           <Route path='/sign-up' render={() => (
-            <SignUp msgAlert={this.msgAlert} setUser={this.setUser} setCartId={this.setCartId}/>
+            <SignUp msgAlert={this.msgAlert} setUser={this.setUser} setCartId={this.setCartId} setCartItems={this.setCartItems} cartItems={cartItems} />
           )} />
           <Route path='/sign-in' render={() => (
             <SignIn msgAlert={this.msgAlert} setUser={this.setUser} setCartId={this.setCartId} setCartItems={this.setCartItems} cartItems={cartItems} />
@@ -87,6 +89,7 @@ class App extends Component {
             <PastCarts msgAlert={this.msgAlert} user={user} />
           )} />
         </main>
+        <Footer user={this.props.user}/>
       </Fragment>
     )
   }

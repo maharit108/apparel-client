@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom'
 import { getAllCarts, delThisCart } from '../../api/cartItems.js'
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
-import Footer from '../Footer/footer.js'
 
 import './pastcarts.css'
 
@@ -62,40 +61,42 @@ render () {
   if (this.state.pastCarts.length !== 0) {
     jsx = (
       <Fragment>
-        <h3 className='order'>Transaction History:</h3>
-        <Table>
-          <thead>
-            <tr key='head'>
-              <th>#</th>
-              <th>{'Transaction'}</th>
-              <th>{'Price'}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              this.state.pastCarts.map((cart, index) => {
-                let total = 0
-                return (
-                  <tr key={index}>
-                    <th className='cart'>{index + 1}</th>
-                    <th className='cart'>{cart.cartItems.map((item, idx) => {
-                      total += (item.price * item.qty)
-                      return (
-                        <div key={idx}>
-                          {item.itemName} - {item.qty}
-                        </div>
-                      )
-                    })}</th>
-                    <th className='cart'>{(Math.round(total * 100) / 100).toFixed(2)}</th>
-                    <th className='cart'>
-                      <Button data-key={index} onClick={this.delCart}>X</Button>
-                    </th>
-                  </tr>
-                )
-              })
-            }
-          </tbody>
-        </Table>
+        <div className='pastOrder'>
+          <h3 className='order'>Transaction History:</h3>
+          <Table>
+            <thead>
+              <tr key='head'>
+                <th>#</th>
+                <th>{'Transaction'}</th>
+                <th>{'Price'}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                this.state.pastCarts.map((cart, index) => {
+                  let total = 0
+                  return (
+                    <tr key={index}>
+                      <th className='cart'>{index + 1}</th>
+                      <th className='cart'>{cart.cartItems.map((item, idx) => {
+                        total += (item.price * item.qty)
+                        return (
+                          <div key={idx}>
+                            {item.itemName} - {item.qty}
+                          </div>
+                        )
+                      })}</th>
+                      <th className='cart'>${(Math.round(total * 100) / 100).toFixed(2)}</th>
+                      <th className='cart'>
+                        <Button data-key={index} onClick={this.delCart}>X</Button>
+                      </th>
+                    </tr>
+                  )
+                })
+              }
+            </tbody>
+          </Table>
+        </div>
       </Fragment>
     )
   }
@@ -106,7 +107,6 @@ render () {
           {jsx}
         </div>
       </div>
-      <Footer user={this.props.user}/>
     </Fragment>
   )
 }

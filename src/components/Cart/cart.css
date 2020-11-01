@@ -10,12 +10,13 @@
 .formtxt {
   text-align: center;
   color: black;
-  padding: 15vh;
+  padding: 18vh;
 }
 
-.empty {
+.emptyCart {
   color: black;
-  padding: 15vh;
+  padding: 18vh;
+  text-align: center;
 }
 
 .order {
@@ -31,5 +32,9 @@
 }
 
 .pay {
-  margin: 20px;
+  margin: 20px 20px 40px 20px;
+}
+
+.orderCart {
+  height: 80vh;
 }

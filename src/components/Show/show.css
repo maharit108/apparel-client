@@ -12,3 +12,18 @@
 Button {
   align-self: flex-end;
 }
+
+.cardHead {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.card-body {
+  overflow: hidden;
+}
+
+.card-text {
+  max-width: 100%;
+  text-align: left;
+}
