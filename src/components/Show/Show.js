@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 
 import { getItems } from '../../api/allItems.js'
+import { editCart } from '../../api/cartItems.js'
 
 import Card from 'react-bootstrap/Card'
 import CardDeck from 'react-bootstrap/CardDeck'
@@ -41,6 +42,16 @@ class Show extends Component {
       })
     } else {
       cartCopy.filter(item => item.itemId === this.state.itemsOnSale[idx]._id)[0].qty += 1
+    }
+    if (this.props.user) {
+      console.log('user', this.props.user, cartCopy)
+      const cart = {
+        items: cartCopy,
+        isDone: false
+      }
+      editCart(this.props.user, this.props.cartId, cart)
+        .then((res) => console.log(''))
+        .catch(console.error)
     }
     this.props.setCartItems(cartCopy)
     this.props.msgAlert({

@@ -7,7 +7,7 @@ export const getAllCarts = (user) => {
     headers: {
       'Authorization': `Token token=${user.token}`
     },
-    url: apiUrl + '/history'
+    url: apiUrl + '/carts'
   })
 }
 
@@ -51,5 +51,15 @@ export const editCart = (user, cartId, cart) => {
         isCompleted: cart.isDone
       }
     }
+  })
+}
+
+export const delThisCart = (user, cartId) => {
+  return axios({
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Token token=${user.token}`
+    },
+    url: apiUrl + `/my-cart/${cartId}`
   })
 }

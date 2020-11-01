@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
-// import { getItems } from '../../api/allItems.js'
+
 import { editCart, addCart } from '../../api/cartItems.js'
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
@@ -15,7 +15,7 @@ class Cart extends Component {
 
     this.state = {
       itemsInCart: [],
-      cardNo: '',
+      cartNo: '',
       firstName: '',
       lastName: '',
       date: '',
@@ -55,7 +55,7 @@ class Cart extends Component {
       .then(() => {
         this.setState({
           itemsInCart: [],
-          cardNo: '',
+          cartNo: '',
           firstName: '',
           lastName: '',
           date: '',
@@ -88,17 +88,45 @@ class Cart extends Component {
     const cartCopy = [...this.state.itemsInCart]
     if (cartCopy[idx].qty <= 1) {
       cartCopy.splice(idx, 1)
-      this.props.setCartItems(cartCopy)
-      this.setState({ itemsInCart: cartCopy })
     } else {
       cartCopy[idx].qty -= 1
-      this.props.setCartItems(cartCopy)
-      this.setState({ itemsInCart: cartCopy })
     }
+    if (this.props.user) {
+      console.log('user', this.props.user, cartCopy)
+      const cart = {
+        items: cartCopy,
+        isDone: false
+      }
+      editCart(this.props.user, this.props.cartId, cart)
+        .then((res) => console.log(''))
+        .catch(console.error)
+    }
+    this.props.setCartItems(cartCopy)
+    this.setState({ itemsInCart: cartCopy })
+  }
+
+  addOneCart = e => {
+    e.preventDefault()
+    const idx = parseInt(e.target.getAttribute('data-key'))
+    const cartCopy = [...this.state.itemsInCart]
+    cartCopy[idx].qty += 1
+    if (this.props.user) {
+      console.log('user', this.props.user, cartCopy)
+      const cart = {
+        items: cartCopy,
+        isDone: false
+      }
+      editCart(this.props.user, this.props.cartId, cart)
+        .then((res) => console.log(''))
+        .catch(console.error)
+    }
+    this.props.setCartItems(cartCopy)
+    this.setState({ itemsInCart: cartCopy })
+    console.log('now', this.state.itemsInCart)
   }
 
   render () {
-    const { cardNo, firstName, lastName, date, cvv, address, contactInfo } = this.state
+    const { cartNo, firstName, lastName, date, cvv, address, contactInfo } = this.state
     let jsx = (<h3 className='empty'>Cart is Empty</h3>)
     let total = 0
     if (this.state.itemsInCart.length !== 0) {
@@ -111,19 +139,24 @@ class Cart extends Component {
                 <th>#</th>
                 <th>{'Product'}</th>
                 <th>{'Quantity'}</th>
+                <th>{'Unit'}</th>
                 <th>{'Price'}</th>
               </tr>
             </thead>
             <tbody>
               {
                 this.state.itemsInCart.map((item, index) => {
-                  total += item.price
+                  total += (item.price * item.qty)
                   return (
                     <tr key={index}>
                       <th className='cart'>{index + 1}</th>
                       <th className='cart'>{item.itemName}</th>
                       <th className='cart'>{item.qty}</th>
                       <th className='cart'>{item.price}</th>
+                      <th className='cart'>{(Math.round(item.price * item.qty * 100) / 100).toFixed(2)}</th>
+                      <th className='cart'>
+                        <Button data-key={index} onClick={this.addOneCart}>+</Button>
+                      </th>
                       <th className='cart'>
                         <Button data-key={index} onClick={this.delFromCart}>X</Button>
                       </th>
@@ -132,8 +165,8 @@ class Cart extends Component {
                 })
               }
               <tr>
-                <th colSpan="3" className='total'>{'Total'}</th>
-                <th >{total}</th>
+                <th colSpan="4" className='total'>{'Total'}</th>
+                <th >{(Math.round(total * 100) / 100).toFixed(2)}</th>
               </tr>
             </tbody>
           </Table>
@@ -157,9 +190,9 @@ class Cart extends Component {
               </Form.Group>
             </Form.Row>
 
-            <Form.Group controlId="cardNo">
+            <Form.Group controlId="cartNo">
               <Form.Label>Card Number</Form.Label>
-              <Form.Control placeholder="1111 2222 3333 4444" name='cardNo' value={cardNo} onChange={this.handleChange} />
+              <Form.Control placeholder="1111 2222 3333 4444" name='cartNo' value={cartNo} onChange={this.handleChange} />
             </Form.Group>
 
             <Form.Row>

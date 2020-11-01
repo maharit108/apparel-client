@@ -1,0 +1,16 @@
+.cart {
+  color: black;
+  font-weight: 300;
+}
+
+.empty {
+  color: black;
+  padding: 15vh;
+}
+
+.cartShow {
+  margin: 15px;
+  text-align: center;
+  justify-content: center;
+  border-bottom: 2px solid gray;
+}

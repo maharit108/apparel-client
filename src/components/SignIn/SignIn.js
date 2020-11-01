@@ -41,17 +41,25 @@ class SignIn extends Component {
         getRecentCart(this.state.user)
           .then(res => {
             if (res.data.recentCart.length !== 0) {
-              console.log('got cart', res.data.recentCart)
+              let cartCopy = []
+              if (this.props.cartItems.length !== 0) {
+                const propCartCopy = [...this.props.cartItems]
+                const resCartCopy = [...res.data.recentCart[0].cartItems]
 
-              const cartCopy = [...this.props.cartItems, ...res.data.recentCart[0].cartItems]
+                propCartCopy.forEach((item, idx) => {
+                  resCartCopy.forEach((cal, index) => {
+                    if (item.itemId === cal.itemId) {
+                      cal.qty += item.qty
+                      propCartCopy.splice(idx, 1)
+                    }
+                  })
+                })
 
-              // const cartCopy = []
+                cartCopy = [...propCartCopy, ...resCartCopy]
+              } else {
+                cartCopy = [...res.data.recentCart[0].cartItems]
+              }
 
-              //   this.props.cartItems.forEach(item => {
-              //     if ((res.data.recentCart[res.data.recentCart.length - 1].cartItems).includes(item)) {
-              //       item.
-              //     }
-              // })
               this.props.setCartId(res.data.recentCart[0]._id)
               this.props.setCartItems(cartCopy)
             } else {
