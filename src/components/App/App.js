@@ -15,7 +15,6 @@ import PastCarts from '../Cart/PastCarts.js'
 import AddItems from '../OwnerItems/Add.js'
 import EditItems from '../OwnerItems/Edit.js'
 import OwnerView from '../OwnerItems/ownerView.js'
-import OwnerSignIn from '../OwnerItems/OwnerSignIn.js'
 
 class App extends Component {
   constructor () {
@@ -74,9 +73,7 @@ class App extends Component {
           <AuthenticatedRoute user={user} path='/change-password' render={() => (
             <ChangePassword msgAlert={this.msgAlert} user={user} />
           )} />
-          <Route path='/admin-sign-in' render={() => (
-            <OwnerSignIn msgAlert={this.msgAlert} setUser={this.setUser} />
-          )} />
+
           <Route exact path='/admin' render={() => (
             <OwnerView user={user} msgAlert={this.msgAlert} />
           )} />
