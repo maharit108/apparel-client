@@ -35,7 +35,7 @@ In the application, React is used for building components which add up to become
 
 ___
 ## Future Upgrades
-- Use S3 to store image of items instead of using weblinks.
+- Use AWS- S3 to store image of items instead of using weblinks.
 - Use stripe to check for credit card validation
 - Use recaptcha to verify that user is not a AI.
 
@@ -43,8 +43,8 @@ ___
 ## Wireframe
 - Initial Wireframe
 
-<img src='./public/oldWF.jpg' />
+<img src='./public/oldWF.jpeg' />
 
 - Final Wireframe
 
-<img src='./public/oldWF.jpg' />
+<img src='./public/newWF.jpg' />
