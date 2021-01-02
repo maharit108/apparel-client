@@ -46,3 +46,11 @@ Button {
   justify-content: flex-end;
   align-items: center;
 }
+
+.cart__loading {
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

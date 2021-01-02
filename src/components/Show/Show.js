@@ -3,6 +3,7 @@ import React, { Component, Fragment } from 'react'
 import { getItems } from '../../api/allItems.js'
 import { editCart } from '../../api/cartItems.js'
 
+import CircularProgress from '@material-ui/core/CircularProgress'
 import Card from 'react-bootstrap/Card'
 import CardDeck from 'react-bootstrap/CardDeck'
 // import Button from 'react-bootstrap/Button'
@@ -15,7 +16,8 @@ class Show extends Component {
     super()
 
     this.state = {
-      itemsOnSale: []
+      itemsOnSale: [],
+      isLoaded: false
     }
   }
 
@@ -25,6 +27,9 @@ class Show extends Component {
         this.setState((prevState) => {
           return { itemsOnSale: [...prevState.itemsOnSale, ...res.data.itemsOnSale] }
         })
+      })
+      .then(() => {
+        this.setState({ isLoaded: true })
       })
       .catch(console.error)
   }
@@ -83,11 +88,15 @@ class Show extends Component {
       )
     }
     return (
-      <Fragment>
-        <CardDeck className='deck'>
-          {jsx}
-        </CardDeck>
-      </Fragment>
+      this.state.isLoaded ? (
+        <Fragment>
+          <CardDeck className='deck'>
+            {jsx}
+          </CardDeck>
+        </Fragment>) : (
+        <div className='cart__loading'>
+          <CircularProgress size='5rem' thickness={2} />
+        </div>)
     )
   }
 }
